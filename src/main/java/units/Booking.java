@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public record Booking(String name, int age, LocalDateTime departureDate, List<String> itinerary) {
+public record Booking(
+        String name, int age, LocalDateTime departureDate, List<String> itinerary) {
    private static final Set<String> AIRPORT_CODES = Set.of(
       "COS", "DEN", "DUB", "PRG");
 
@@ -19,7 +20,8 @@ public record Booking(String name, int age, LocalDateTime departureDate, List<St
          errorMessages.add("Too late!");
       if (itinerary.size() < 2)
          errorMessages.add("Itinerary needs 2+ segments");
-      if (!itinerary.stream().allMatch(airportCode -> AIRPORT_CODES.contains(airportCode)))
+      if (!itinerary.stream().allMatch(
+              airportCode -> AIRPORT_CODES.contains(airportCode)))
          errorMessages.add("Itinerary contains invalid airport");
       return errorMessages;
    }
