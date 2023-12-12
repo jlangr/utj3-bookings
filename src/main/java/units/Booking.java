@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Set;
 
 public record Booking(
-        String name, int age, LocalDateTime departureDate, List<String> itinerary) {
+        String name,
+        int age,
+        LocalDateTime departureDate,
+        List<String> itinerary) {
    private static final Set<String> AIRPORT_CODES = Set.of(
       "COS", "DEN", "DUB", "PRG");
 
