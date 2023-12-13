@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import static java.util.Arrays.asList;
-import static java.util.stream.Collectors.toList;
 
 public record Booking(
         String name,
@@ -14,11 +13,6 @@ public record Booking(
         List<String> itinerary) {
    private static final Set<String> AIRPORT_CODES = Set.of(
       "COS", "DEN", "DUB", "PRG");
-
-   interface Validation {
-      boolean isInvalid();
-      String errorMessage();
-   }
 
    class NameRequired implements Validation {
       @Override
@@ -84,16 +78,17 @@ public record Booking(
    }
 
    // START:validate
-   public List<String> validate() {
+   List<Validation> validations() {
       return asList(
-         new NameRequired(),
-         new AgeMinimum(),
-         new FutureDate(),
-         new ItinerarySize(),
-         new ItineraryAirports()).stream()
-            .filter(Validation::isInvalid)
-            .map(Validation::errorMessage)
-            .collect(toList());
+              new NameRequired(),
+              new AgeMinimum(),
+              new FutureDate(),
+              new ItinerarySize(),
+              new ItineraryAirports());
+   }
+
+   public List<String> validate() {
+      return new Validator().validate(validations());
    }
    // END:validate
 }
