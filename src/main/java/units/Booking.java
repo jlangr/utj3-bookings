@@ -1,7 +1,6 @@
 package units;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -86,22 +85,15 @@ public record Booking(
 
    // START:validate
    public List<String> validate() {
-      return validations().stream()
+      return asList(
+         new NameRequired(),
+         new AgeMinimum(),
+         new FutureDate(),
+         new ItinerarySize(),
+         new ItineraryAirports()).stream()
             .filter(Validation::isInvalid)
             .map(Validation::errorMessage)
             .collect(toList());
    }
    // END:validate
-
-   // START:validations
-   private List<Validation> validations() {
-      var validations = asList(
-         new NameRequired(),
-         new AgeMinimum(),
-         new FutureDate(),
-         new ItinerarySize(),
-         new ItineraryAirports());
-      return validations;
-   }
-   // END:validations
 }
