@@ -1,9 +1,12 @@
 package units;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toList;
 
 public record Booking(
         String name,
@@ -13,19 +16,92 @@ public record Booking(
    private static final Set<String> AIRPORT_CODES = Set.of(
       "COS", "DEN", "DUB", "PRG");
 
-   public List<String> validate() {
-      var errorMessages = new ArrayList<String>();
-      if (name == null || name.trim().isEmpty())
-         errorMessages.add("Name is empty");
-      if (age < 18)
-         errorMessages.add("Minor cannot fly unaccompanied");
-      if (!departureDate.isAfter(LocalDateTime.now()))
-         errorMessages.add("Too late!");
-      if (itinerary.size() < 2)
-         errorMessages.add("Itinerary needs 2+ segments");
-      if (!itinerary.stream().allMatch(
-              airportCode -> AIRPORT_CODES.contains(airportCode)))
-         errorMessages.add("Itinerary contains invalid airport");
-      return errorMessages;
+   interface Validation {
+      boolean isInvalid();
+      String errorMessage();
    }
+
+   class NameRequired implements Validation {
+      @Override
+      public boolean isInvalid() {
+         return name == null || name.trim().isEmpty();
+      }
+
+      @Override
+      public String errorMessage() {
+         return "Name is empty";
+      }
+   }
+
+   // START:AgeMinimum
+   class AgeMinimum implements Validation {
+      @Override
+      public boolean isInvalid() {
+         return age < 18;
+      }
+
+      @Override
+      public String errorMessage() {
+         return "Minor cannot fly unaccompanied";
+      }
+   }
+   // END:AgeMinimum
+
+   class FutureDate implements Validation {
+      @Override
+      public boolean isInvalid() {
+         return !departureDate.isAfter(LocalDateTime.now());
+      }
+
+      @Override
+      public String errorMessage() {
+         return "Too late!";
+      }
+   }
+
+   class ItinerarySize implements Validation {
+      @Override
+      public boolean isInvalid() {
+         return itinerary.size() < 2;
+      }
+
+      @Override
+      public String errorMessage() {
+         return "Itinerary needs 2+ segments";
+      }
+   }
+
+   class ItineraryAirports implements Validation {
+      @Override
+      public boolean isInvalid() {
+         return !itinerary.stream().allMatch(
+                 airportCode -> AIRPORT_CODES.contains(airportCode));
+      }
+
+      @Override
+      public String errorMessage() {
+         return "Itinerary contains invalid airport";
+      }
+   }
+
+   // START:validate
+   public List<String> validate() {
+      return validations().stream()
+            .filter(Validation::isInvalid)
+            .map(Validation::errorMessage)
+            .collect(toList());
+   }
+   // END:validate
+
+   // START:validations
+   private List<Validation> validations() {
+      var validations = asList(
+         new NameRequired(),
+         new AgeMinimum(),
+         new FutureDate(),
+         new ItinerarySize(),
+         new ItineraryAirports());
+      return validations;
+   }
+   // END:validations
 }
