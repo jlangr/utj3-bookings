@@ -78,6 +78,10 @@ public record Booking(
    }
 
    // START:validate
+   public List<String> validate() {
+      return new Validator().validate(validations());
+   }
+
    List<Validation> validations() {
       return asList(
               new NameRequired(),
@@ -85,10 +89,6 @@ public record Booking(
               new FutureDate(),
               new ItinerarySize(),
               new ItineraryAirports());
-   }
-
-   public List<String> validate() {
-      return new Validator().validate(validations());
    }
    // END:validate
 }
