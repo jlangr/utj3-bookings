@@ -1,5 +1,6 @@
 package units;
 
+// START:Validator
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -12,3 +13,4 @@ public class Validator {
                .collect(toList());
     }
 }
+// END:Validator
