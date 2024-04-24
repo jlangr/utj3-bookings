@@ -93,7 +93,7 @@ public record Booking(
          new ItineraryAirports()).stream()
             .filter(Validation::isInvalid)
             .map(Validation::errorMessage)
-            .collect(toList());
+            .toList();
    }
    // END:validate
 }
