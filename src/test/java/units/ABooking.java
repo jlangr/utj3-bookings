@@ -12,8 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ABooking {
-   Booking booking;
-
    static final int VALID_AGE = 18;
    static final LocalDateTime VALID_DEPARTURE_DATE =
       LocalDateTime.now().plus(1, DAYS);
@@ -90,7 +88,6 @@ class ABooking {
       @Test
       void itineraryContainsInvalidSegment() {
          var invalidAirportInItinerary = List.of(VALID_AIRPORT_CODE1, INVALID_AIRPORT_CODE);
-         System.out.println(invalidAirportInItinerary);
          var booking = new Booking(VALID_NAME, VALID_AGE, VALID_DEPARTURE_DATE, invalidAirportInItinerary);
 
          var results = booking.validate();
