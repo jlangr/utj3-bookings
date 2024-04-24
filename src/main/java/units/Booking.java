@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import static java.util.Arrays.asList;
-import static java.util.stream.Collectors.toList;
 
 public record Booking(
         String name,
