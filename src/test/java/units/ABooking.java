@@ -49,7 +49,7 @@ class ABooking {
 
       @Test
       void nameIsEmpty() {
-         String name = " ";
+         var name = " ";
          var booking = new Booking(name, VALID_AGE, VALID_DEPARTURE_DATE, VALID_ITINERARY);
 
          var results = booking.validate();
@@ -84,17 +84,17 @@ class ABooking {
 
          var results = booking.validate();
 
-         assertEquals(List.of("Itinerary needs 2+ segments"), results);
+         assertEquals(List.of("Itinerary needs 2+ airport codes"), results);
       }
 
       @Test
-      void itineraryContainsInvalidSegment() {
+      void itineraryContainsInvalidAirportCode() {
          var invalidAirportInItinerary = List.of(VALID_AIRPORT_CODE1, INVALID_AIRPORT_CODE);
          var booking = new Booking(VALID_NAME, VALID_AGE, VALID_DEPARTURE_DATE, invalidAirportInItinerary);
 
          var results = booking.validate();
 
-         assertEquals(List.of("Itinerary contains invalid airport"), results);
+         assertEquals(List.of("Itinerary contains invalid airport code"), results);
       }
    }
 }

@@ -65,7 +65,7 @@ public record Booking(
 
       @Override
       public String errorMessage() {
-         return "Itinerary needs 2+ segments";
+         return "Itinerary needs 2+ airport codes";
       }
    }
 
@@ -78,7 +78,7 @@ public record Booking(
 
       @Override
       public String errorMessage() {
-         return "Itinerary contains invalid airport";
+         return "Itinerary contains invalid airport code";
       }
    }
 
