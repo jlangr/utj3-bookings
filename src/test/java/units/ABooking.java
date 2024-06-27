@@ -22,7 +22,7 @@ class ABooking {
    static final String VALID_NAME = "Aslan";
 
    @Nested
-   class validateReturnsNoErrorMessageWhen {
+   class ValidatesWhen {
       @Test
       void allFieldsAreValid() {
          var booking = new Booking(VALID_NAME, VALID_AGE, VALID_DEPARTURE_DATE, VALID_ITINERARY);
@@ -34,7 +34,7 @@ class ABooking {
    }
 
    @Nested
-   class validateReturnsErrorMessageWhen {
+   class DoesNotValidateWhen {
       @Test
       void nameIsNull() {
          String name = null;
