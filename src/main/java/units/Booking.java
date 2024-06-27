@@ -23,10 +23,10 @@ public record Booking(
       if (!departureDate.isAfter(LocalDateTime.now()))
          errorMessages.add("Too late!");
       if (itinerary.size() < 2)
-         errorMessages.add("Itinerary needs 2+ segments");
+         errorMessages.add("Itinerary needs 2+ airport codes");
       if (!itinerary.stream().allMatch(
               airportCode -> AIRPORT_CODES.contains(airportCode)))
-         errorMessages.add("Itinerary contains invalid airport");
+         errorMessages.add("Itinerary contains invalid airport code");
       return errorMessages;
    }
 }
