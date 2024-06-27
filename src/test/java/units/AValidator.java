@@ -1,6 +1,6 @@
 package units;
 
-// START:impl
+// START:test
 import org.junit.jupiter.api.Test;
 import java.util.Collections;
 import java.util.List;
@@ -32,4 +32,4 @@ public class AValidator {
             passingValidation)));
    }
 }
-// END:impl
+// END:test
