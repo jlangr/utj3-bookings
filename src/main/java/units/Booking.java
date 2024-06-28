@@ -11,6 +11,7 @@ public record Booking(
         LocalDateTime departureDate,
         List<String> itinerary) {
 
+   // START:validate
    public List<String> validate(Validator validator) {
       return validator.validate(validations());
    }
@@ -23,4 +24,5 @@ public record Booking(
               new ItinerarySize(this),
               new ItineraryAirports(this));
    }
+   // END:validate
 }
