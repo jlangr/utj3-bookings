@@ -1,9 +1,8 @@
 package units;
 
+import units.validations.*;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
-
 import static java.util.Arrays.asList;
 
 public record Booking(
@@ -11,84 +10,17 @@ public record Booking(
         int age,
         LocalDateTime departureDate,
         List<String> itinerary) {
-   private static final Set<String> AIRPORT_CODES = Set.of(
-      "COS", "DEN", "DUB", "PRG");
 
-   class NameRequired implements Validation {
-      @Override
-      public boolean isInvalid() {
-         return name == null || name.trim().isEmpty();
-      }
-
-      @Override
-      public String errorMessage() {
-         return "Name is empty";
-      }
-   }
-
-   // START:AgeMinimum
-   class AgeMinimum implements Validation {
-      @Override
-      public boolean isInvalid() {
-         return age < 18;
-      }
-
-      @Override
-      public String errorMessage() {
-         return "Minor cannot fly unaccompanied";
-      }
-   }
-   // END:AgeMinimum
-
-   class FutureDate implements Validation {
-      @Override
-      public boolean isInvalid() {
-         return !departureDate.isAfter(LocalDateTime.now());
-      }
-
-      @Override
-      public String errorMessage() {
-         return "Too late!";
-      }
-   }
-
-   class ItinerarySize implements Validation {
-      @Override
-      public boolean isInvalid() {
-         return itinerary.size() < 2;
-      }
-
-      @Override
-      public String errorMessage() {
-         return "Itinerary needs 2+ airport codes";
-      }
-   }
-
-   class ItineraryAirports implements Validation {
-      @Override
-      public boolean isInvalid() {
-         return !itinerary.stream().allMatch(
-                 airportCode -> AIRPORT_CODES.contains(airportCode));
-      }
-
-      @Override
-      public String errorMessage() {
-         return "Itinerary contains invalid airport code";
-      }
-   }
-
-   // START:validate
-   public List<String> validate() {
-      return new Validator().validate(validations());
+   public List<String> validate(Validator validator) {
+      return validator.validate(validations());
    }
 
    List<Validation> validations() {
       return asList(
-              new NameRequired(),
-              new AgeMinimum(),
-              new FutureDate(),
-              new ItinerarySize(),
-              new ItineraryAirports());
+              new NameRequired(this),
+              new AgeMinimum(this),
+              new FutureDate(this),
+              new ItinerarySize(this),
+              new ItineraryAirports(this));
    }
-   // END:validate
 }

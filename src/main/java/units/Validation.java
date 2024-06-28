@@ -1,7 +1,7 @@
 package units;
 
 // START:Validation
-interface Validation {
+public interface Validation {
     boolean isInvalid();
     String errorMessage();
 }
